@@ -14,6 +14,7 @@ import reactTex from "../assets/react.png";
 import sassTex from "../assets/sass.jpg";
 import screenObj from "../assets/screen.obj";
 import skillObj from "../assets/skill.obj";
+import cloudLowTex from "../assets/low.png";
 
 // ╔════════════════════════════════════════════════════════════════════════╗
 // |   Loading async assets
@@ -31,6 +32,10 @@ export const loadAssets = (fontAndTextureManager: THREE.LoadingManager) => {
   textureLoader.load(spaceTex, (texture) => {
     texture.mapping = THREE.EquirectangularReflectionMapping;
     assets.textures.env = texture;
+  });
+
+  textureLoader.load(cloudLowTex, (texture) => {
+    assets.textures.cloud = texture;
   });
 
   textureLoader.load(tsTex, (typescript) => {

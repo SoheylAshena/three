@@ -11,10 +11,7 @@ export const selectCanvas = () => {
 // ═════════════════════════════════════════════════════════════════════════
 // |||   Resize Handler fucntion
 // ═════════════════════════════════════════════════════════════════════════
-export const canvasResizeHandler = (
-  camera: PerspectiveCamera,
-  renderer: WebGLRenderer
-) => {
+export const canvasResizeHandler = (camera: PerspectiveCamera, renderer: WebGLRenderer) => {
   const handler = () => {
     const newWidth = window.innerWidth;
     const newHeight = window.innerHeight;

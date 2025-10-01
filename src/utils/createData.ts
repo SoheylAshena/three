@@ -40,6 +40,15 @@ export const createMaterials = () => {
   const whitePlastic = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.1 });
 
   const starsMaterial = new THREE.PointsMaterial({ size: 0.3, sizeAttenuation: true, vertexColors: true });
+
+  const cloudMaterial = new THREE.MeshStandardMaterial({
+    map: assets.textures.cloud,
+    emissive: 0x180138,
+    transparent: true,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+  });
+
   assets.materials = {
     ...assets.materials,
     whiteGlow,
@@ -51,12 +60,13 @@ export const createMaterials = () => {
     ReactMat,
     whitePlastic,
     starsMaterial,
+    cloudMaterial,
   };
 };
 
 export const createGeometries = () => {
   const starsGeometry = new THREE.BufferGeometry();
-  const starsCount = 30000;
+  const starsCount = 60000;
   const positions = new Float32Array(starsCount * 3);
   const colors = new Float32Array(starsCount * 3); // Array for RGB colors
   const minRadius = 50; // Inner radius for thickness
@@ -117,13 +127,13 @@ export const createGeometries = () => {
       size: 0.5,
     });
 
+  const cloudGeo = new THREE.PlaneGeometry(500, 500);
   const helloGeo = textGeo("Hello");
   const introGeo = textGeo("I'm Soheyl");
   const aboutGeo = textGeo("About");
   const skillsGeo = textGeo("Skills");
   const projGeo = textGeo("Projects");
   const contactGeo = textGeo("Contact");
-
   const sphereGeo = new THREE.SphereGeometry(2, 30, 30);
 
   assets.geometries = {
@@ -136,6 +146,7 @@ export const createGeometries = () => {
     contactGeo,
     sphereGeo,
     starsGeometry,
+    cloudGeo,
   };
 };
 
@@ -162,6 +173,7 @@ export const create3DObjects = () => {
   const contact = new THREE.Mesh(geometries.contactGeo, materials.whiteGlow);
   const sphere = new THREE.Mesh(geometries.sphereGeo, materials.whiteGlow);
   const starField = new THREE.Points(geometries.starsGeometry, materials.starsMaterial);
+  const cloud = new THREE.Mesh(assets.geometries.cloudGeo, assets.materials.cloudMaterial);
 
   assets.objects = {
     ...assets.objects,
@@ -173,5 +185,6 @@ export const create3DObjects = () => {
     contact,
     sphere,
     starField,
+    cloud,
   };
 };
