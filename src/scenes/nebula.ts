@@ -1,27 +1,31 @@
 import gsap from "gsap";
-import { assets } from "../globalData";
 import * as THREE from "three";
-import { degToRad } from "./degToRad";
+import { degToRad } from "three/src/math/MathUtils.js";
+import type { AssetLoader } from "../systems/AssetLoader";
 
-export const createNebula = () => {
+export const createNebula = (staticAssets: AssetLoader) => {
+  const texture = staticAssets.textures.cloud;
   const cloudParticles = [];
   const count = 10;
+  const cloudGeo = new THREE.PlaneGeometry(500, 500);
+  const cloudMaterial = new THREE.MeshStandardMaterial({
+    map: texture,
+    emissive: 0x180138,
+    transparent: true,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+  });
 
   for (let i = 0; i < count; i++) {
-    const cloud = assets.objects.cloud.clone(true) as THREE.Mesh;
-
+    const cloud = new THREE.Mesh(cloudGeo, cloudMaterial);
     cloud.position.set((Math.random() - 0.5) * 800, 0, (Math.random() - 0.5) * 800);
-
     cloud.rotation.set(
       1.16 + (Math.random() - 0.5) * 0.2,
       -0.12 + (Math.random() - 0.5) * 0.2,
       Math.random() * Math.PI * 2
     );
-
-    (cloud.material as THREE.MeshStandardMaterial).opacity = Math.random() * 0.5 + 0.3;
-
+    cloud.material.opacity = Math.random() * 0.5 + 0.3;
     gsap.to(cloud.rotation, { z: "-=6.28", repeat: -1, ease: "none", duration: 150 });
-
     cloudParticles.push(cloud);
   }
 

@@ -1,52 +1,35 @@
-import { LoadingManager } from "three";
-import { canvasResizeHandler, selectCanvas } from "./utils/canvas";
-import { initializeRenderer } from "./utils/renderer";
-import { initializeCameras } from "./utils/cameras";
-import { loadAssets } from "./utils/assetManager";
+import { MyRenderer } from "./systems/renderer";
+import { MyCamera } from "./systems/cameras";
 
 import "./style.css";
-import { initializeScene, renderScene } from "./utils/scene";
-import { create3DObjects, createGeometries, createLights, createMaterials } from "./utils/createData";
-import { createHomeSection } from "./sections/home";
-import { createProjectsSection } from "./sections/projects";
-import { createContactSection } from "./sections/contact";
-import { createSkillsSection } from "./sections/skills";
+import { initializeScene } from "./systems/scene";
+
+import { AssetLoader } from "./systems/AssetLoader";
+import gsap from "gsap";
+import { MyCanvas } from "./systems/canvas";
 
 // ═════════════════════════════════════════════════════════════════════════
 // |||   Three.JS initialization
 // ═════════════════════════════════════════════════════════════════════════
-const canvas = selectCanvas();
-const renderer = initializeRenderer(canvas);
-const { mainCamera, mainCameraControls } = initializeCameras(canvas);
+const canvas = new MyCanvas();
+const renderer = new MyRenderer(canvas.canvas);
+const camera = new MyCamera(canvas.canvas);
 
-// ═════════════════════════════════════════════════════════════════════════
-// |||   Scene intialization after asset loading
-// ═════════════════════════════════════════════════════════════════════════
-const loadingManager = new LoadingManager();
-loadAssets(loadingManager);
+const staticAssets = new AssetLoader();
 
-// ─── 🔹 Crate and render scene after loading assets ─────────────
-// ──────────────────────────────────────────────────────────────────
-
-loadingManager.onLoad = () => {
-  createLights();
-  createMaterials();
-  createGeometries();
-  create3DObjects();
-
-  const home = createHomeSection();
-  const projects = createProjectsSection();
-  const contact = createContactSection();
-  const skills = createSkillsSection();
-
-  const scene = initializeScene();
-
-  scene.add(home, contact, ...skills, ...projects);
-
-  renderScene(renderer, mainCamera, scene, mainCameraControls);
+staticAssets.loadingManager.onLoad = () => {
+  const scene = initializeScene(staticAssets);
+  const render = () => {
+    camera.controls.update();
+    renderer.renderer.render(scene, camera.camera);
+  };
+  gsap.ticker.add(render);
 };
 
-// ═════════════════════════════════════════════════════════════════════════
-// |||   Resize even handler for canvas
-// ═════════════════════════════════════════════════════════════════════════
-canvasResizeHandler(mainCamera, renderer);
+const container = document.getElementById("text");
+const home = document.createElement("p");
+home.textContent = "Hello";
+container?.appendChild(home);
+console.log(home, container);
+
+canvas.resizeHandler(camera.camera, renderer.renderer);
