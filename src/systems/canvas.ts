@@ -15,8 +15,8 @@ export class MyCanvas {
 
   resizeHandler(camera: PerspectiveCamera, renderer: WebGLRenderer) {
     window.addEventListener("resize", () => {
-      const newWidth = this.canvas.clientWidth;
-      const newHeight = this.canvas.clientHeight;
+      const newWidth = window.innerWidth;
+      const newHeight = window.innerHeight;
       camera.aspect = newWidth / newHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(newWidth, newHeight);
