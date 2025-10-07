@@ -1,5 +1,6 @@
 import type { BufferGeometry, PerspectiveCamera, Texture, Object3D, Light, Material } from "three";
 import type { Font, OrbitControls } from "three/examples/jsm/Addons.js";
+import { CAMERA_POSITIONS } from "./constants";
 
 export type Assets = {
   objects: Record<string, Object3D>;
@@ -17,3 +18,5 @@ export type Bounds = {
   maxY: number;
   step: number;
 };
+
+export type Positions = typeof CAMERA_POSITIONS;

@@ -3,15 +3,25 @@
 *::before {
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
 }
 
 html {
   background-color: rgb(3, 0, 18);
 }
+html,
+body {
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: auto; /* optional: disable momentum scrolling on iOS */
+}
+
+h1 {
+  font-size: 50px;
+}
 
 #main-canvas {
   position: fixed;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   top: 0;
   right: 0;
@@ -25,6 +35,8 @@ html {
   height: 100vh;
   font-size: xx-large;
   z-index: 2;
+  padding: 30px;
+  opacity: 0;
 }
 
 #navbar {
@@ -46,4 +58,11 @@ html {
   @media (max-width: 800px) {
     font-size: medium;
   }
+}
+
+#cssRenderer {
+  width: 100%;
+  height: 100vh;
+  z-index: 2;
+  color: white;
 }

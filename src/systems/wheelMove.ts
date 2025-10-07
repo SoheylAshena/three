@@ -6,7 +6,12 @@ function clamp(value: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, value));
 }
 
-function applyWheelMove(camPos: { y: number }, tgtPos: { y: number }, deltaY: number, bounds: Bounds): void {
+function applyWheelMove(
+  camPos: { y: number },
+  tgtPos: { y: number },
+  deltaY: number,
+  bounds: Bounds
+): void {
   const distance = deltaY < 0 ? -bounds.step : bounds.step;
 
   const newCamY = clamp(camPos.y - distance, bounds.minY, bounds.maxY);
@@ -22,7 +27,7 @@ export function setupWheelHandler(
   cameraPosition: THREE.Vector3,
   cameraTarget: THREE.Vector3,
   bounds: Record<string, Bounds>,
-  onViewChange: (callback: (view: string) => void) => void
+  addToListener: (callback: (view: string) => void) => void
 ): void {
   let activeHandler: (e: WheelEvent) => void;
 
@@ -39,5 +44,5 @@ export function setupWheelHandler(
     window.addEventListener("wheel", activeHandler, { passive: true });
   };
 
-  onViewChange(updateWheelHandler);
+  addToListener(updateWheelHandler);
 }
