@@ -9,6 +9,11 @@
 html {
   background-color: rgb(3, 0, 18);
 }
+html,
+body {
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: auto; /* optional: disable momentum scrolling on iOS */
+}
 
 #main-canvas {
   position: fixed;
