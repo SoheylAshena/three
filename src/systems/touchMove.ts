@@ -12,7 +12,7 @@ function applyTouchMove(
   deltaY: number,
   bounds: Bounds
 ): void {
-  const distance = deltaY < 0 ? -bounds.step / 2 : bounds.step / 2;
+  const distance = deltaY < 0 ? bounds.step : -bounds.step;
 
   const newCamY = clamp(camPos.y - distance, bounds.minY, bounds.maxY);
   const newTgtY = clamp(tgtPos.y - distance, bounds.minY, bounds.maxY);
