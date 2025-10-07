@@ -22,8 +22,16 @@ export const renderNavbar = (setView: (view: string) => void) => {
     setView("home");
   });
 
+  const btn = document.createElement("p")!;
+  btn.textContent = "click";
+  btn.addEventListener("click", async () => {
+    await document.documentElement.requestFullscreen();
+    btn.remove(); // hide button once fullscreen
+  });
+
   navbar.appendChild(linkHome);
   navbar.appendChild(linkSkills);
   navbar.appendChild(linkProjects);
   navbar.appendChild(linkContact);
+  navbar.appendChild(btn);
 };
