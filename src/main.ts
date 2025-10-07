@@ -7,8 +7,9 @@ import { initializeScene } from "./systems/scene";
 import { MyRenderer } from "./systems/renderer";
 import { MyCamera } from "./systems/cameras";
 import { setupWheelHandler } from "./systems/wheelMove";
+import { setupTouchHandler } from "./systems/touchMove";
 
-import { updateContent } from "./utils/htmlContent";
+import { updateContent } from "./systems/htmlContent";
 import { renderNavbar } from "./sections/navbar";
 
 import type { Bounds } from "./types";
@@ -92,9 +93,8 @@ currentView.setView("home");
 renderNavbar(currentView.setView);
 
 // ╔════════════════════════════════════════════════════════════════════════╗
-// |   Scroll handling per view
+// |   Touch and mouse handling per view
 // ╚════════════════════════════════════════════════════════════════════════╝
-
 const viewBounds: Record<string, Bounds> = {
   home: {
     minY: CAMERA_POSITIONS.home.position.y,
@@ -118,4 +118,5 @@ const viewBounds: Record<string, Bounds> = {
   },
 };
 
+setupTouchHandler(cameraPosition, cameraTarget, viewBounds, currentView.onViewChange);
 setupWheelHandler(cameraPosition, cameraTarget, viewBounds, currentView.onViewChange);

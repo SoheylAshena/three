@@ -5,11 +5,15 @@ import { createNebula } from "../scenes/nebula";
 import { createSkillsSection } from "../scenes/skills";
 import { createProjectsSection } from "../scenes/projects";
 import { createContactSection } from "../scenes/contact";
+import { isMobile } from "../utils/isMobile";
 
 // ╔════════════════════════════════════════════════════════════════════════╗
 // |   Initialize Three.JS scene
 // ╚════════════════════════════════════════════════════════════════════════╝
-export const initializeScene = (textures: Record<string, THREE.Texture>, objects: Record<string, THREE.Object3D>) => {
+export const initializeScene = (
+  textures: Record<string, THREE.Texture>,
+  objects: Record<string, THREE.Object3D>
+) => {
   const spaceTexture = textures.env;
   const cloudTexture = textures.cloud;
   const skillsData = [
@@ -42,7 +46,11 @@ export const initializeScene = (textures: Record<string, THREE.Texture>, objects
   const scene = new THREE.Scene();
   scene.environment = spaceTexture;
   scene.environmentIntensity = 0.5;
-  scene.add(starField, ...nebula, ...skills, ...projects, contact);
+
+  if (!isMobile()) {
+    scene.add(...nebula);
+  }
+  scene.add(starField, ...skills, ...projects, contact);
 
   return scene;
 };

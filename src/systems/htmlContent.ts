@@ -3,7 +3,7 @@ import { renderHomeSection } from "../sections/homeSection";
 import { renderProjectsSection } from "../sections/projectsSection";
 import { renderSkillsSection } from "../sections/skillsSection";
 import { CAMERA_POSITIONS } from "../main";
-import { isMobile } from "./isMobile";
+import { isMobile } from "../utils/isMobile";
 
 const animateContent = (renderFunc: (container: HTMLElement) => void, container: HTMLElement) => {
   gsap.to(container, {
