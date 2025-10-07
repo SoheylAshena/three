@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { degToRad } from "three/src/math/MathUtils.js";
+import { isMobile } from "../utils/isMobile";
 
 export const createContactSection = (model: THREE.Object3D) => {
   const whiteMaterial = new THREE.MeshStandardMaterial({
@@ -18,7 +19,11 @@ export const createContactSection = (model: THREE.Object3D) => {
   });
   const contactScreen = model.clone(true);
   contactScreen.position.set(0, 0, 10);
-  contactScreen.rotation.set(0, degToRad(180), 0);
+  if (isMobile()) {
+    contactScreen.rotation.set(0, degToRad(180), degToRad(90));
+  } else {
+    contactScreen.rotation.set(0, degToRad(180), 0);
+  }
   contactScreen.scale.set(0.3, 0.3, 0.3);
 
   return contactScreen;
