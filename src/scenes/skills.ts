@@ -2,114 +2,41 @@ import * as THREE from "three";
 import { poseGrid } from "../utils/poseGrid";
 import gsap from "gsap";
 import { degToRad } from "three/src/math/MathUtils.js";
-import type { AssetLoader } from "../systems/AssetLoader";
 
-export const createSkillsSection = (staticAssets: AssetLoader) => {
-  const skillMats: Array<keyof typeof materials> = [
-    "HTMLMat",
-    "CSSMat",
-    "JSMat",
-    "TSMat",
-    "ReactMat",
-    "TailwindMat",
-    "NextMat",
-    "ThreeMat",
-    "SassMat",
-  ];
-  const relatedLight: Array<keyof typeof lights> = [
-    "orange",
-    "blue",
-    "yellow",
-    "blue",
-    "blue",
-    "cyan",
-    "white",
-    "white",
-    "magenta",
-  ];
-  const lights = {
-    orange: new THREE.PointLight(0xff5e00, 0.3, 0.5),
-    yellow: new THREE.PointLight(0xffff00, 0.3, 0.5),
-    blue: new THREE.PointLight(0x0044cc, 0.3, 0.5),
-    white: new THREE.PointLight(0xffffff, 0.3, 0.5),
-    magenta: new THREE.PointLight(0xff007c, 0.3, 0.5),
-    cyan: new THREE.PointLight(0x00ffff, 0.3, 0.5),
+export const createSkillsSection = (
+  data: {
+    texture: THREE.Texture;
+    color: number;
+  }[],
+  model: THREE.Object3D
+) => {
+  const whiteMaterial = new THREE.MeshStandardMaterial({
+    color: 0xffffff,
+    roughness: 0.1,
+  });
+
+  const createMaterial = (texture: THREE.Texture) => {
+    return new THREE.MeshStandardMaterial({
+      map: texture,
+      emissiveMap: texture,
+      emissive: 0xffffff,
+    });
   };
-  const materials = {
-    whitePlastic: new THREE.MeshStandardMaterial({
-      color: 0xffffff,
-      roughness: 0.1,
-    }),
-    whiteGlow: new THREE.MeshStandardMaterial({
-      color: 0xffffff,
-      emissive: 0xffffff,
-    }),
-    TSMat: new THREE.MeshStandardMaterial({
-      emissive: 0xffffff,
-      emissiveMap: staticAssets.textures.typescript,
-    }),
-
-    HTMLMat: new THREE.MeshStandardMaterial({
-      map: staticAssets.textures.html,
-      emissive: 0xffffff,
-      emissiveMap: staticAssets.textures.html,
-    }),
-
-    CSSMat: new THREE.MeshStandardMaterial({
-      map: staticAssets.textures.css,
-      emissive: 0xffffff,
-      emissiveMap: staticAssets.textures.css,
-    }),
-
-    JSMat: new THREE.MeshStandardMaterial({
-      map: staticAssets.textures.js,
-      emissive: 0xffffff,
-      emissiveMap: staticAssets.textures.js,
-    }),
-
-    ReactMat: new THREE.MeshStandardMaterial({
-      map: staticAssets.textures.react,
-      emissive: 0xffffff,
-      emissiveMap: staticAssets.textures.react,
-    }),
-
-    TailwindMat: new THREE.MeshStandardMaterial({
-      map: staticAssets.textures.tailwind,
-      emissive: 0xffffff,
-      emissiveMap: staticAssets.textures.tailwind,
-    }),
-
-    NextMat: new THREE.MeshStandardMaterial({
-      map: staticAssets.textures.next,
-      emissive: 0xffffff,
-      emissiveMap: staticAssets.textures.next,
-    }),
-
-    ThreeMat: new THREE.MeshStandardMaterial({
-      map: staticAssets.textures.three,
-      emissive: 0xffffff,
-      emissiveMap: staticAssets.textures.three,
-    }),
-
-    SassMat: new THREE.MeshStandardMaterial({
-      map: staticAssets.textures.sass,
-      emissive: 0xffffff,
-      emissiveMap: staticAssets.textures.sass,
-    }),
+  const createLight = (color: number) => {
+    return new THREE.PointLight(color, 0.3, 0.5);
   };
 
-  const skill = staticAssets.objects.skill;
+  model.position.set(10, 0, 0);
+  model.rotation.y = degToRad(-90);
+  (model.children[0] as THREE.Mesh).material = whiteMaterial;
 
-  skill.position.set(10, 0, 0);
-  skill.rotation.y = degToRad(-90);
-  (skill.children[0] as THREE.Mesh).material = materials.whitePlastic;
-  (skill.children[1] as THREE.Mesh).material = materials.whiteGlow;
+  const skills = data.map((skill, index) => {
+    const newSkill = model.clone(true);
+    (newSkill.children[1] as THREE.Mesh).material = createMaterial(skill.texture);
 
-  const skills = skillMats.map((skillMat, index) => {
-    const newSkill = skill.clone(true);
-    const newLight = lights[relatedLight[index]].clone(true);
+    const newLight = createLight(skill.color);
     newLight.position.copy(newSkill.position);
-    (newSkill.children[1] as THREE.Mesh).material = materials[skillMat];
+
     const group = new THREE.Group();
     group.add(newSkill, newLight);
 

@@ -16,6 +16,7 @@
   "dependencies": {
     "@types/three": "^0.180.0",
     "gsap": "^3.13.0",
+    "lil-gui": "^0.20.0",
     "three": "^0.180.0",
     "three-nebula": "^10.0.3"
   }

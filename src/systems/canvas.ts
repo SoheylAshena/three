@@ -4,9 +4,13 @@ import type { PerspectiveCamera, WebGLRenderer } from "three";
 // |||   Canvas selection
 // ═════════════════════════════════════════════════════════════════════════
 export class MyCanvas {
-  public canvas: HTMLCanvasElement;
+  private canvas: HTMLCanvasElement;
   constructor() {
     this.canvas = window.document.querySelector("#main-canvas")! as HTMLCanvasElement;
+  }
+
+  getCanvas() {
+    return this.canvas;
   }
 
   resizeHandler(camera: PerspectiveCamera, renderer: WebGLRenderer) {

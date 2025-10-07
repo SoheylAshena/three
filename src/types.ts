@@ -11,3 +11,9 @@ export type Assets = {
   controls: Record<string, OrbitControls>;
   materials: Record<string, Material>;
 };
+
+export type Bounds = {
+  minY: number;
+  maxY: number;
+  step: number;
+};

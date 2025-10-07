@@ -16,15 +16,29 @@ import skillObj from "../assets/skill.obj";
 import cloudLowTex from "../assets/low.png";
 
 export class AssetLoader {
-  public loadingManager = new THREE.LoadingManager();
+  private loadingManager = new THREE.LoadingManager();
 
   private fontLoader = new FontLoader(this.loadingManager);
   private textureLoader = new THREE.TextureLoader(this.loadingManager);
   private objLoader = new OBJLoader(this.loadingManager);
 
-  public textures: Record<string, THREE.Texture> = {};
-  public fonts: Record<string, Font> = {};
-  public objects: Record<string, THREE.Object3D> = {};
+  private textures: Record<string, THREE.Texture> = {};
+  private fonts: Record<string, Font> = {};
+  private objects: Record<string, THREE.Object3D> = {};
+
+  getTextures() {
+    return this.textures;
+  }
+  getFonts() {
+    return this.fonts;
+  }
+  getObjects() {
+    return this.objects;
+  }
+
+  getManager() {
+    return this.loadingManager;
+  }
 
   constructor() {
     this.textureLoader.load(spaceTex, (texture) => {

@@ -1,26 +1,22 @@
 import * as THREE from "three";
-import type { AssetLoader } from "../systems/AssetLoader";
 import { degToRad } from "three/src/math/MathUtils.js";
 
-export const createContactSection = (staticAssets: AssetLoader) => {
-  const screen = staticAssets.objects.screen;
-  const materials = {
-    whitePlastic: new THREE.MeshStandardMaterial({
-      color: 0xffffff,
-      roughness: 0.1,
-    }),
-    whiteGlow: new THREE.MeshStandardMaterial({
-      color: 0xffffff,
-      emissive: 0xffffff,
-    }),
-  };
+export const createContactSection = (model: THREE.Object3D) => {
+  const whiteMaterial = new THREE.MeshStandardMaterial({
+    color: 0xffffff,
+    roughness: 0.1,
+  });
+  const whiteGlowMaterial = new THREE.MeshStandardMaterial({
+    color: 0xffffff,
+    emissive: 0xffffff,
+  });
 
-  screen.traverse((child) => {
+  model.traverse((child) => {
     if ((child as THREE.Mesh).isMesh) {
-      (child as THREE.Mesh).material = [materials.whitePlastic, materials.whiteGlow, materials.whitePlastic];
+      (child as THREE.Mesh).material = [whiteMaterial, whiteGlowMaterial, whiteMaterial];
     }
   });
-  const contactScreen = screen.clone(true);
+  const contactScreen = model.clone(true);
   contactScreen.position.set(0, 0, 10);
   contactScreen.rotation.set(0, degToRad(180), 0);
   contactScreen.scale.set(0.3, 0.3, 0.3);

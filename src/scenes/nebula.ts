@@ -1,10 +1,8 @@
 import gsap from "gsap";
 import * as THREE from "three";
 import { degToRad } from "three/src/math/MathUtils.js";
-import type { AssetLoader } from "../systems/AssetLoader";
 
-export const createNebula = (staticAssets: AssetLoader) => {
-  const texture = staticAssets.textures.cloud;
+export const createNebula = (texture: THREE.Texture) => {
   const cloudParticles = [];
   const count = 10;
   const cloudGeo = new THREE.PlaneGeometry(500, 500);
