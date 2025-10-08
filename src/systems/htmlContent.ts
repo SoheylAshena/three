@@ -105,9 +105,9 @@ export function updateContent(view: string, scene: THREE.Scene) {
           p.position.set(-10, 1.5, 0);
           p2.position.set(-10, -2.5, 0);
           p3.position.set(-10, -6.5, 0);
-          desc.position.set(-10, -1.2, 0);
-          desc2.position.set(-10, -5.2, 0);
-          desc3.position.set(-10, -9.1, 0);
+          desc.position.set(-10, -1.5, 0);
+          desc2.position.set(-10, -5.5, 0);
+          desc3.position.set(-10, -9.4, 0);
         } else {
           p.position.set(-10, 0.5, -3);
           p2.position.set(-10, -1.5, -3);
