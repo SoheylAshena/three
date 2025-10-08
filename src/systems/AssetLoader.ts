@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { Font, FontLoader, OBJLoader } from "three/examples/jsm/Addons.js";
+import { Font, OBJLoader } from "three/examples/jsm/Addons.js";
 
 import spaceTex from "../assets/Env.jpg";
 import cssTex from "../assets/css.png";
@@ -18,7 +18,6 @@ import cloudLowTex from "../assets/low.png";
 export class AssetLoader {
   private loadingManager = new THREE.LoadingManager();
 
-  private fontLoader = new FontLoader(this.loadingManager);
   private textureLoader = new THREE.TextureLoader(this.loadingManager);
   private objLoader = new OBJLoader(this.loadingManager);
 
@@ -93,10 +92,6 @@ export class AssetLoader {
     this.textureLoader.load(nextTex, (texture) => {
       texture.colorSpace = THREE.SRGBColorSpace;
       this.textures.next = texture;
-    });
-
-    this.fontLoader.load("https://threejs.org/examples/fonts/helvetiker_regular.typeface.json", (font) => {
-      this.fonts.simple = font;
     });
 
     this.objLoader.load(screenObj, (object) => {

@@ -1,5 +1,9 @@
-export function renderProjectsSection(container: HTMLElement) {
+export function renderProjectsSection() {
   const projectsDesc = document.createElement("h2");
   projectsDesc.textContent = "My Projects";
-  container.appendChild(projectsDesc);
+
+  const div = document.createElement("div");
+  div.appendChild(projectsDesc);
+
+  return div;
 }

@@ -27,7 +27,7 @@ export function setupTouchHandler(
   cameraPosition: THREE.Vector3,
   cameraTarget: THREE.Vector3,
   bounds: Record<string, Bounds>,
-  onViewChange: (callback: (view: string) => void) => void
+  addToListener: (callback: (view: string) => void) => void
 ): void {
   let activeTouchMoveHandler: ((e: TouchEvent) => void) | null = null;
   let activeTouchStartHandler: ((e: TouchEvent) => void) | null = null;
@@ -64,5 +64,5 @@ export function setupTouchHandler(
     window.addEventListener("touchmove", activeTouchMoveHandler, { passive: false });
   };
 
-  onViewChange(updateTouchHandlers);
+  addToListener(updateTouchHandlers);
 }

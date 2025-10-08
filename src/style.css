@@ -15,6 +15,10 @@ body {
   -webkit-overflow-scrolling: auto; /* optional: disable momentum scrolling on iOS */
 }
 
+h1 {
+  font-size: 50px;
+}
+
 #main-canvas {
   position: fixed;
   width: 100%;
@@ -32,6 +36,7 @@ body {
   font-size: xx-large;
   z-index: 2;
   padding: 30px;
+  opacity: 0;
 }
 
 #navbar {
@@ -53,4 +58,11 @@ body {
   @media (max-width: 800px) {
     font-size: medium;
   }
+}
+
+#cssRenderer {
+  width: 100%;
+  height: 100vh;
+  z-index: 2;
+  color: white;
 }

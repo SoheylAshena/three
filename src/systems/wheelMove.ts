@@ -27,7 +27,7 @@ export function setupWheelHandler(
   cameraPosition: THREE.Vector3,
   cameraTarget: THREE.Vector3,
   bounds: Record<string, Bounds>,
-  onViewChange: (callback: (view: string) => void) => void
+  addToListener: (callback: (view: string) => void) => void
 ): void {
   let activeHandler: (e: WheelEvent) => void;
 
@@ -44,5 +44,5 @@ export function setupWheelHandler(
     window.addEventListener("wheel", activeHandler, { passive: true });
   };
 
-  onViewChange(updateWheelHandler);
+  addToListener(updateWheelHandler);
 }

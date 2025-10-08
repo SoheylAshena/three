@@ -11,6 +11,7 @@ import { isMobile } from "../utils/isMobile";
 // |   Initialize Three.JS scene
 // ╚════════════════════════════════════════════════════════════════════════╝
 export const initializeScene = (
+  scene: THREE.Scene,
   textures: Record<string, THREE.Texture>,
   objects: Record<string, THREE.Object3D>
 ) => {
@@ -31,6 +32,7 @@ export const initializeScene = (
 
   const projectsData = [{ texture: "blank" }, { texture: "blank" }, { texture: "blank" }];
   const projectsModel = objects.screen;
+
   const contactModel = objects.screen;
 
   // ─── 🔹 Scene creations ─────────────
@@ -38,12 +40,12 @@ export const initializeScene = (
   const starField = createStarField();
   const nebula = createNebula(cloudTexture);
   const skills = createSkillsSection(skillsData, skillModel);
+
   const projects = createProjectsSection(projectsData, projectsModel);
   const contact = createContactSection(contactModel);
 
   // ─── 🔹 Scene configuration ─────────────
   // ──────────────────────────────────────────────────────────────────
-  const scene = new THREE.Scene();
   scene.environment = spaceTexture;
   scene.environmentIntensity = 0.5;
 
@@ -51,6 +53,4 @@ export const initializeScene = (
     scene.add(...nebula);
   }
   scene.add(starField, ...skills, ...projects, contact);
-
-  return scene;
 };

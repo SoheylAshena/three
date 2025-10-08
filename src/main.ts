@@ -1,4 +1,5 @@
 import gsap from "gsap";
+import * as THREE from "three";
 
 import { AssetLoader } from "./systems/AssetLoader";
 import { MyCanvas } from "./systems/canvas";
@@ -8,27 +9,16 @@ import { MyRenderer } from "./systems/renderer";
 import { MyCamera } from "./systems/cameras";
 import { setupWheelHandler } from "./systems/wheelMove";
 import { setupTouchHandler } from "./systems/touchMove";
-
+import { navigatgeCamera } from "./systems/cameraMove";
 import { updateContent } from "./systems/htmlContent";
+
 import { renderNavbar } from "./sections/navbar";
 
-import type { Bounds } from "./types";
+import { CAMERA_POSITIONS, viewBounds } from "./constants";
 
 import "./style.css";
+import { MyCSSRenderer } from "./systems/cssRenderer";
 
-// ╔════════════════════════════════════════════════════════════════════════╗
-// |   Constants
-// ╚════════════════════════════════════════════════════════════════════════╝
-export const CAMERA_POSITIONS = {
-  home: { position: { x: 0, y: 0, z: 0 }, target: { x: 0, y: 0, z: -10 } },
-  skills: { position: { x: 4.84, y: -1, z: 0.16 }, target: { x: 10, y: -1, z: 2.62 } },
-  projects: { position: { x: -6, y: 0, z: 1 }, target: { x: -10, y: 0, z: -1 } },
-  contact: { position: { x: 0, y: 0, z: 2 }, target: { x: 0, y: 0, z: 10 } },
-  homeMobile: { position: { x: 0, y: 0, z: 0 }, target: { x: 0, y: 0, z: -10 } },
-  skillsMobile: { position: { x: 1.5, y: -1, z: -3 }, target: { x: 10, y: -1, z: 1 } },
-  projectsMobile: { position: { x: 0, y: -2, z: 0 }, target: { x: -10, y: -2, z: 0 } },
-  contactMobile: { position: { x: 0, y: 0, z: -7 }, target: { x: 0, y: 0, z: 10 } },
-};
 // ═════════════════════════════════════════════════════════════════════════
 // |||   Three.JS logic
 // ═════════════════════════════════════════════════════════════════════════
@@ -43,10 +33,15 @@ const canvasElement = canvas.getCanvas();
 const webGlRenderer = new MyRenderer(canvasElement);
 const renderer = webGlRenderer.getRenderer();
 
+// ─── 🔹 CSS renderer ─────────────
+// ──────────────────────────────────────────────────────────────────
+const cssRendererClass = new MyCSSRenderer();
+const cssRenderer = cssRendererClass.getRenderer();
+
 // ─── 🔹 Scene camera ─────────────
 // ──────────────────────────────────────────────────────────────────
 const camera = new MyCamera(canvasElement);
-const perspectiveCamera = camera.getCamera();
+export const perspectiveCamera = camera.getCamera();
 const cameraControls = camera.getControls();
 const cameraPosition = perspectiveCamera.position;
 const cameraTarget = cameraControls.target;
@@ -57,6 +52,10 @@ export const setTarget = camera.setTarget;
 // ──────────────────────────────────────────────────────────────────
 canvas.resizeHandler(perspectiveCamera, renderer);
 
+// ─── 🔹 3D Scene ─────────────
+// ──────────────────────────────────────────────────────────────────
+const scene = new THREE.Scene();
+
 // ─── 🔹 File management ─────────────
 // ──────────────────────────────────────────────────────────────────
 const fileAssets = new AssetLoader();
@@ -64,59 +63,49 @@ const loadingManager = fileAssets.getManager();
 const textures = fileAssets.getTextures();
 const objects = fileAssets.getObjects();
 
+// ─── 🔹 Render when all assets are loaded ─────────────
+// ──────────────────────────────────────────────────────────────────
 loadingManager.onLoad = () => {
-  const scene = initializeScene(textures, objects);
-
-  const renderLoop = () => {
-    cameraControls.update();
-    renderer.render(scene, perspectiveCamera);
-  };
-
-  gsap.ticker.add(renderLoop);
+  initializeScene(scene, textures, objects);
 };
 
+// ─── 🔹 Render animation ─────────────
+// ──────────────────────────────────────────────────────────────────
+
+const renderLoop = () => {
+  cameraControls.update();
+  renderer.render(scene, perspectiveCamera);
+  cssRenderer.render(scene, perspectiveCamera);
+};
+gsap.ticker.add(renderLoop);
+
 // ╔════════════════════════════════════════════════════════════════════════╗
-// |   HTML content logic
+// |   Navigation logic
 // ╚════════════════════════════════════════════════════════════════════════╝
 const currentView = new CurrentView();
-const container = document.getElementById("text")!;
 
-currentView.onViewChange((view) => {
-  updateContent(view, container, moveCamera, setTarget);
+// ─── 🔹 Camera movement ─────────────
+// ──────────────────────────────────────────────────────────────────
+currentView.addToListener((view) => {
+  navigatgeCamera(view, CAMERA_POSITIONS, moveCamera, setTarget);
 });
 
-currentView.setView("home");
-// ╔════════════════════════════════════════════════════════════════════════╗
-// |   Navbar logic
-// ╚════════════════════════════════════════════════════════════════════════╝
+// ─── 🔹 Html content ─────────────
+// ──────────────────────────────────────────────────────────────────
+currentView.addToListener((view) => {
+  updateContent(view, scene);
+});
 
+// ─── 🔹 Initial view ─────────────
+// ──────────────────────────────────────────────────────────────────
+currentView.setView("home");
+
+// ─── 🔹 Navbar element ─────────────
+// ──────────────────────────────────────────────────────────────────
 renderNavbar(currentView.setView);
 
 // ╔════════════════════════════════════════════════════════════════════════╗
 // |   Touch and mouse handling per view
 // ╚════════════════════════════════════════════════════════════════════════╝
-const viewBounds: Record<string, Bounds> = {
-  home: {
-    minY: CAMERA_POSITIONS.home.position.y,
-    maxY: CAMERA_POSITIONS.home.position.y,
-    step: 0.5,
-  },
-  skills: {
-    minY: CAMERA_POSITIONS.skills.position.y,
-    maxY: CAMERA_POSITIONS.skills.position.y,
-    step: 0.5,
-  },
-  projects: {
-    minY: CAMERA_POSITIONS.projects.position.y - 4,
-    maxY: CAMERA_POSITIONS.projects.position.y,
-    step: 0.5,
-  },
-  contact: {
-    minY: CAMERA_POSITIONS.contact.position.y,
-    maxY: CAMERA_POSITIONS.contact.position.y,
-    step: 0.5,
-  },
-};
-
-setupTouchHandler(cameraPosition, cameraTarget, viewBounds, currentView.onViewChange);
-setupWheelHandler(cameraPosition, cameraTarget, viewBounds, currentView.onViewChange);
+setupTouchHandler(cameraPosition, cameraTarget, viewBounds, currentView.addToListener);
+setupWheelHandler(cameraPosition, cameraTarget, viewBounds, currentView.addToListener);

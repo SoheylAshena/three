@@ -15,7 +15,7 @@ export class CurrentView {
     this.notifyListeners();
   };
 
-  onViewChange = (callback: (view: string) => void): void => {
+  addToListener = (callback: (view: string) => void): void => {
     this.listeners.push(callback);
   };
 
