@@ -1,17 +1,17 @@
 import type { Positions } from "../types";
 import { isMobile } from "../utils/isMobile";
 
-const homePointer = isMobile() ? "homeMobile" : "home";
-const skillsPointer = isMobile() ? "skillsMobile" : "skills";
-const projectsPointer = isMobile() ? "projectsMobile" : "projects";
-const contactPointer = isMobile() ? "contactMobile" : "contact";
-
 export function navigatgeCamera(
   view: string,
   positions: Positions,
   moveCamera: (x: number, y: number, z: number) => void,
   setTarget: (x: number, y: number, z: number) => void
 ) {
+  const homePointer = isMobile() ? "homeMobile" : "home";
+  const skillsPointer = isMobile() ? "skillsMobile" : "skills";
+  const projectsPointer = isMobile() ? "projectsMobile" : "projects";
+  const contactPointer = isMobile() ? "contactMobile" : "contact";
+
   switch (view) {
     case "home":
       moveCamera(

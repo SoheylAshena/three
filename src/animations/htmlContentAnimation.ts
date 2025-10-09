@@ -19,6 +19,7 @@ export const animateContent = (renderFunc: HTMLElement | HTMLElement[], containe
     opacity: 1,
     delay: 1.5,
     onStart: () => {
+      container.innerHTML = "";
       const result = renderFunc;
       if (Array.isArray(result)) {
         result.forEach((el) => container.appendChild(el));

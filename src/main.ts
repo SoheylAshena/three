@@ -40,7 +40,7 @@ const renderer = webGlRenderer.getRenderer();
 
 // ─── 🔹 CSS renderer ─────────────
 // ──────────────────────────────────────────────────────────────────
-const cssRendererClass = new MyCSSRenderer();
+const cssRendererClass = new MyCSSRenderer(canvasElement);
 const cssRenderer = cssRendererClass.getRenderer();
 
 // ─── 🔹 Scene camera ─────────────
@@ -52,10 +52,6 @@ const cameraPosition = perspectiveCamera.position;
 const cameraTarget = cameraControls.target;
 export const moveCamera = camera.moveCamera;
 export const setTarget = camera.setTarget;
-
-// ─── 🔹 Resize handler initialization ─────────────
-// ──────────────────────────────────────────────────────────────────
-canvas.resizeHandler(perspectiveCamera, renderer);
 
 // ─── 🔹 3D Scene ─────────────
 // ──────────────────────────────────────────────────────────────────
@@ -160,3 +156,9 @@ renderNavbar(currentView.setView);
 // ╚════════════════════════════════════════════════════════════════════════╝
 setupTouchHandler(cameraPosition, cameraTarget, viewBounds, currentView.addToListener);
 setupWheelHandler(cameraPosition, cameraTarget, viewBounds, currentView.addToListener);
+
+// ─── 🔹 Resize handler initialization ─────────────
+// ──────────────────────────────────────────────────────────────────
+function resizeCallbacks() {}
+
+canvas.resizeHandler(perspectiveCamera, renderer, resizeCallbacks);

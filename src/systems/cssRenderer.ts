@@ -7,9 +7,9 @@ import { CSS2DRenderer } from "three/examples/jsm/Addons.js";
 export class MyCSSRenderer {
   private renderer;
 
-  constructor() {
+  constructor(canvas: HTMLCanvasElement) {
     this.renderer = new CSS2DRenderer();
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setSize(canvas.clientWidth, canvas.clientHeight);
     this.renderer.domElement.style.position = "absolute";
     this.renderer.domElement.style.width = "100%";
     this.renderer.domElement.style.height = "100vh";

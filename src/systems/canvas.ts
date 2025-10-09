@@ -13,13 +13,14 @@ export class MyCanvas {
     return this.canvas;
   }
 
-  resizeHandler(camera: PerspectiveCamera, renderer: WebGLRenderer) {
+  resizeHandler(camera: PerspectiveCamera, renderer: WebGLRenderer, callbacks: () => void) {
     window.addEventListener("resize", () => {
-      const newWidth = window.innerWidth;
-      const newHeight = window.innerHeight;
+      const newWidth = this.canvas.clientWidth;
+      const newHeight = this.canvas.clientHeight;
       camera.aspect = newWidth / newHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(newWidth, newHeight);
+      callbacks();
     });
   }
 }
