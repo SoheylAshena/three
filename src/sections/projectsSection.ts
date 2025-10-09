@@ -2,99 +2,59 @@ import * as THREE from "three";
 import { CSS2DObject } from "three/examples/jsm/Addons.js";
 import { isMobile } from "../utils/isMobile";
 
-export function renderProjectsSection() {
-  const projectsDesc = document.createElement("h2");
-  projectsDesc.textContent = "My Projects";
+// --- Create elements for each project ---
+const projects = [
+  {
+    title: "3D Portfolio",
+    desc: "An interactive 3D experience built with Three.js and GSAP animations.",
+  },
+  {
+    title: "Task Manager",
+    desc: "A productivity web app with smooth UI transitions and intuitive design.",
+  },
+  {
+    title: "Recipe Finder",
+    desc: "A clean, fast app that helps you discover and save recipes from around the world.",
+  },
+];
 
+const projectLabels = projects.map((proj) => {
   const div = document.createElement("div");
-  div.appendChild(projectsDesc);
+  div.classList.add("project-section");
 
-  return div;
-}
+  const title = document.createElement("h1");
+  title.textContent = proj.title;
+  title.classList.add("projectTitle");
 
-const para = document.createElement("h1");
-para.textContent = "3D Portfolio";
-para.classList.add("projectTitle");
+  const description = document.createElement("p");
+  description.textContent = proj.desc;
+  description.classList.add("projectDesc");
 
-const para2 = document.createElement("h1");
-para2.textContent = "Task Manager";
-para2.classList.add("projectTitle");
+  div.appendChild(title);
+  div.appendChild(description);
 
-const para3 = document.createElement("h1");
-para3.textContent = "Recipe Finder";
-para3.classList.add("projectTitle");
+  const divObject = new CSS2DObject(div);
 
-const description = document.createElement("p");
-description.textContent =
-  "This is my absolutely lovely beautiful sexy nicely implemented First project";
-description.classList.add("projectDesc");
+  return { divObject, div };
+});
 
-const description2 = document.createElement("p");
-description2.textContent =
-  "This is my absolutely lovely beautiful sexy nicely implemented Second project";
-description2.classList.add("projectDesc");
-
-const description3 = document.createElement("p");
-description3.textContent =
-  "This is my absolutely lovely beautiful sexy nicely implemented Third project";
-description3.classList.add("projectDesc");
-
-const p = new CSS2DObject(para);
-const p2 = new CSS2DObject(para2);
-const p3 = new CSS2DObject(para3);
-
-const desc = new CSS2DObject(description);
-const desc2 = new CSS2DObject(description2);
-const desc3 = new CSS2DObject(description3);
-
+// --- Positioning distances ---
 const distances = {
-  titles: new THREE.Vector3(0, 0.5, -3),
-  titlesMobile: new THREE.Vector3(0, -1.25, 0),
-
-  description: new THREE.Vector3(0, 0, -3),
-  descriptionMobile: new THREE.Vector3(0, -2, 0),
+  desktop: new THREE.Vector3(0, 0, -3.75),
+  mobile: new THREE.Vector3(0, -1.75, 0),
 };
 
-export function renderDynamicProjects(scene: THREE.Scene, positions: THREE.Vector3[]) {
-  if (isMobile()) {
-    p.position.copy(positions[0]);
-    p.position.add(distances.titlesMobile);
+// --- Render projects dynamically in 3D ---
+export function renderDynamicProjects(scene: THREE.Scene, positions: any) {
+  const mobile = isMobile();
 
-    p2.position.copy(positions[1]);
-    p2.position.add(distances.titlesMobile);
+  projectLabels.forEach((proj, i) => {
+    const titleOffset = mobile ? distances.mobile : distances.desktop;
 
-    p3.position.copy(positions[2]);
-    p3.position.add(distances.titlesMobile);
+    proj.divObject.position.copy(positions[i]).add(titleOffset);
 
-    desc.position.copy(positions[0]);
-    desc.position.add(distances.descriptionMobile);
+    scene.add(proj.divObject);
+  });
 
-    desc2.position.copy(positions[1]);
-    desc2.position.add(distances.descriptionMobile);
-
-    desc3.position.copy(positions[2]);
-    desc3.position.add(distances.descriptionMobile);
-  } else {
-    p.position.copy(positions[0]);
-    p.position.add(distances.titles);
-
-    p2.position.copy(positions[1]);
-    p2.position.add(distances.titles);
-
-    p3.position.copy(positions[2]);
-    p3.position.add(distances.titles);
-
-    desc.position.copy(positions[0]);
-    desc.position.add(distances.description);
-
-    desc2.position.copy(positions[1]);
-    desc2.position.add(distances.description);
-
-    desc3.position.copy(positions[2]);
-    desc3.position.add(distances.description);
-  }
-
-  scene.add(p, p2, p3, desc, desc2, desc3);
-
-  return [para, para2, para3, description, description2, description3];
+  return projectLabels.map((p) => p.div);
 }
