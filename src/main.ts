@@ -4,7 +4,6 @@ import * as THREE from "three";
 import { AssetLoader } from "./systems/AssetLoader";
 import { MyCanvas } from "./systems/canvas";
 import { CurrentView } from "./systems/navigation";
-import { initializeScene } from "./systems/scene";
 import { MyRenderer } from "./systems/renderer";
 import { MyCamera } from "./systems/cameras";
 import { setupWheelHandler } from "./systems/wheelMove";
@@ -18,6 +17,12 @@ import { CAMERA_POSITIONS, viewBounds } from "./constants";
 
 import "./style.css";
 import { MyCSSRenderer } from "./systems/cssRenderer";
+import { createStarField } from "./scenes/starField";
+import { createNebula } from "./scenes/nebula";
+import { createSkillsSection } from "./scenes/skills";
+import { createProjectsSection } from "./scenes/projects";
+import { createContactSection } from "./scenes/contact";
+import { isMobile } from "./utils/isMobile";
 
 // ═════════════════════════════════════════════════════════════════════════
 // |||   Three.JS logic
@@ -63,10 +68,56 @@ const loadingManager = fileAssets.getManager();
 const textures = fileAssets.getTextures();
 const objects = fileAssets.getObjects();
 
+let positions: {};
+
 // ─── 🔹 Render when all assets are loaded ─────────────
 // ──────────────────────────────────────────────────────────────────
 loadingManager.onLoad = () => {
-  initializeScene(scene, textures, objects);
+  const spaceTexture = textures.env;
+  const cloudTexture = textures.cloud;
+
+  const skillsData = [
+    { texture: textures.html, color: 0xff5e00 },
+    { texture: textures.css, color: 0x0044cc },
+    { texture: textures.js, color: 0xffff00 },
+    { texture: textures.typescript, color: 0x0044cc },
+    { texture: textures.react, color: 0x0044cc },
+    { texture: textures.next, color: 0xffffff },
+    { texture: textures.three, color: 0xffffff },
+    { texture: textures.tailwind, color: 0x00ffff },
+    { texture: textures.sass, color: 0xff007c },
+  ];
+  const projectsData = [{ texture: "blank" }, { texture: "blank" }, { texture: "blank" }];
+
+  const skillModel = objects.skill;
+  const projectsModel = objects.screen;
+  const contactModel = objects.screen;
+
+  // ─── 🔹 Scene creations ─────────────
+  // ──────────────────────────────────────────────────────────────────
+  const starField = createStarField();
+  const nebula = createNebula(cloudTexture);
+  const skills = createSkillsSection(skillsData, skillModel);
+  const projects = createProjectsSection(projectsData, projectsModel);
+  const contact = createContactSection(contactModel);
+
+  // ─── 🔹 Scene configuration ─────────────
+  // ──────────────────────────────────────────────────────────────────
+  scene.environment = spaceTexture;
+  scene.environmentIntensity = 0.5;
+
+  if (!isMobile()) {
+    scene.add(...nebula);
+  }
+
+  positions = {
+    project1Position: projects[0].position,
+    project2Position: projects[1].position,
+    project3Position: projects[2].position,
+    skillsPosition: skills[2].position,
+  };
+
+  scene.add(starField, ...skills, ...projects, contact);
 };
 
 // ─── 🔹 Render animation ─────────────
@@ -93,7 +144,7 @@ currentView.addToListener((view) => {
 // ─── 🔹 Html content ─────────────
 // ──────────────────────────────────────────────────────────────────
 currentView.addToListener((view) => {
-  updateContent(view, scene);
+  updateContent(view, scene, positions);
 });
 
 // ─── 🔹 Initial view ─────────────

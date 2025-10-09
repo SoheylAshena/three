@@ -23,10 +23,9 @@ export const renderNavbar = (setView: (view: string) => void) => {
   });
 
   const btn = document.createElement("p")!;
-  btn.textContent = "click";
+  btn.textContent = "";
   btn.addEventListener("click", async () => {
     await document.documentElement.requestFullscreen();
-    btn.remove(); // hide button once fullscreen
   });
 
   navbar.appendChild(linkHome);

@@ -30,6 +30,9 @@ export const createSkillsSection = (
   model.rotation.y = degToRad(-90);
   (model.children[0] as THREE.Mesh).material = whiteMaterial;
 
+  const box = new THREE.Box3();
+  const center = new THREE.Vector3();
+
   const skills = data.map((skill, index) => {
     const newSkill = model.clone(true);
     (newSkill.children[1] as THREE.Mesh).material = createMaterial(skill.texture);
@@ -39,6 +42,16 @@ export const createSkillsSection = (
 
     const group = new THREE.Group();
     group.add(newSkill, newLight);
+
+    group.updateMatrixWorld(true);
+
+    box.setFromObject(group);
+    box.getCenter(center);
+
+    newSkill.position.sub(center);
+    newLight.position.sub(center);
+
+    group.position.copy(center);
 
     gsap.to(group.position, {
       y: "+=0.1",

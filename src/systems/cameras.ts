@@ -8,10 +8,11 @@ export class MyCamera {
 
   constructor(canvas: HTMLCanvasElement) {
     this.camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight);
-    this.camera.position.set(0, 0, 5);
+    this.camera.position.set(0, 0, -10);
 
     this.controls = new OrbitControls(this.camera, canvas);
     this.controls.enableDamping = true;
+    this.controls.target.set(0, 0, -20);
   }
 
   getCamera() {
@@ -23,7 +24,9 @@ export class MyCamera {
   }
 
   moveCamera = (x: number, y: number, z: number) => {
-    gsap.to(this.camera.position, { x, y, z, duration: 2 });
+    const tl = gsap.timeline();
+    tl.to(this.camera.position, { y: 3 });
+    tl.to(this.camera.position, { x, y, z, duration: 2 });
   };
 
   setTarget = (x: number, y: number, z: number) => {
