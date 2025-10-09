@@ -7,6 +7,7 @@
 }
 
 html {
+  font-family: "Audiowide", sans-serif;
   background-color: rgb(3, 0, 18);
 }
 html,
@@ -16,7 +17,7 @@ body {
 }
 
 h1 {
-  font-size: 50px;
+  font-size: 32px;
 }
 
 #main-canvas {
@@ -41,22 +42,51 @@ h1 {
 
 #navbar {
   position: fixed;
-  z-index: 3;
-  width: 100%;
-  color: white;
-  display: flex;
-  font-size: larger;
-  gap: 30px;
-  padding: 30px;
   bottom: 0;
   left: 0;
+  width: 100%;
+  z-index: 3;
 
-  > * {
-    cursor: pointer;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  padding: 20px 30px;
 
-  @media (max-width: 800px) {
-    font-size: medium;
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+
+  color: #00ffe0;
+  background: rgba(10, 10, 20, 0.6);
+  border-top: 1px solid rgba(0, 255, 255, 0.2);
+
+  backdrop-filter: blur(12px);
+  box-shadow: 0 -4px 20px rgba(0, 255, 255, 0.1);
+}
+
+#navbar > * {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-shadow: 0 0 4px #00ffee;
+  user-select: none;
+}
+
+#navbar > *:hover {
+  color: #ffffff;
+  text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+  transform: translateY(-2px);
+}
+
+#navbar > *:active {
+  transform: translateY(0);
+  opacity: 0.8;
+}
+
+@media (max-width: 800px) {
+  #navbar {
+    font-size: 0.6rem;
+    gap: 17px;
   }
 }
 
@@ -65,4 +95,19 @@ h1 {
   height: 100vh;
   z-index: 2;
   color: white;
+}
+
+.projectTitle {
+  text-align: center;
+}
+
+.projectDesc {
+  font-size: 16px;
+  width: 100%;
+  padding: 15px;
+  text-align: center;
+
+  @media (min-width: 800px) {
+    max-width: 400px;
+  }
 }

@@ -51,8 +51,8 @@ export function setupTouchHandler(
     activeTouchMoveHandler = (e: TouchEvent) => {
       const t = e.touches[0];
       const dx = t.clientX - lastX;
-      const dy = t.clientY - lastY;
       console.log(dx);
+      const dy = t.clientY - lastY;
 
       applyTouchMove(cameraPosition, cameraTarget, dy, bound);
 
