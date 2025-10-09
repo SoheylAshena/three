@@ -1,4 +1,5 @@
 import type { PerspectiveCamera, WebGLRenderer } from "three";
+import type { CSS2DRenderer } from "three/examples/jsm/Addons.js";
 
 // ═════════════════════════════════════════════════════════════════════════
 // |||   Canvas selection
@@ -13,13 +14,19 @@ export class MyCanvas {
     return this.canvas;
   }
 
-  resizeHandler(camera: PerspectiveCamera, renderer: WebGLRenderer, callbacks: () => void) {
+  resizeHandler(
+    camera: PerspectiveCamera,
+    renderers: Array<WebGLRenderer | CSS2DRenderer>,
+    callbacks: () => void
+  ) {
     window.addEventListener("resize", () => {
       const newWidth = this.canvas.clientWidth;
       const newHeight = this.canvas.clientHeight;
       camera.aspect = newWidth / newHeight;
       camera.updateProjectionMatrix();
-      renderer.setSize(newWidth, newHeight);
+      renderers.forEach((renderer) => {
+        renderer.setSize(newWidth, newHeight);
+      });
       callbacks();
     });
   }

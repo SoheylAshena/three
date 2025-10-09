@@ -13,15 +13,15 @@ export function renderProjectsSection() {
 }
 
 const para = document.createElement("h1");
-para.textContent = "First project";
+para.textContent = "3D Portfolio";
 para.classList.add("projectTitle");
 
 const para2 = document.createElement("h1");
-para2.textContent = "Second project";
+para2.textContent = "Task Manager";
 para2.classList.add("projectTitle");
 
 const para3 = document.createElement("h1");
-para3.textContent = "Third project";
+para3.textContent = "Recipe Finder";
 para3.classList.add("projectTitle");
 
 const description = document.createElement("p");
