@@ -13,7 +13,7 @@ export class MyRenderer {
       alpha: true,
     });
     this.renderer.toneMapping = ACESFilmicToneMapping;
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setSize(canvas.clientWidth, canvas.clientHeight);
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = PCFSoftShadowMap;
   }
