@@ -7,6 +7,7 @@ export const exitAnimation = (staticContainer: HTMLElement, dynamicContainer: HT
     onComplete: () => {
       staticContainer.innerHTML = "";
     },
+    overwrite: true,
   });
   gsap.to(dynamicContainer, {
     opacity: 0,

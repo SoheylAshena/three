@@ -5,7 +5,14 @@ import { animateContent, exitAnimation } from "../animations/htmlContentAnimatio
 import { renderDynamicSkillSection } from "../sections/skillsSection";
 import { renderDynamicProjects } from "../sections/projectsSection";
 
-export function updateContent(view: string, scene: THREE.Scene, positions: any) {
+export function updateContent(
+  view: string,
+  scene: THREE.Scene,
+  positions: {
+    projectsPositions: THREE.Vector3[];
+    skillsPositions: THREE.Vector3[];
+  }
+) {
   const staticContainer = document.getElementById("text")!;
   const dynamicContainer = document.getElementById("cssRenderer")!;
 
@@ -20,7 +27,7 @@ export function updateContent(view: string, scene: THREE.Scene, positions: any) 
     case "skills":
       exit();
       animateContent(
-        renderDynamicSkillSection(scene, [positions.skillsPosition]),
+        renderDynamicSkillSection(scene, [positions.skillsPositions[0]]),
         dynamicContainer
       );
       break;
@@ -28,9 +35,9 @@ export function updateContent(view: string, scene: THREE.Scene, positions: any) 
       exit();
       animateContent(
         renderDynamicProjects(scene, [
-          positions.project1Position,
-          positions.project2Position,
-          positions.project3Position,
+          positions.projectsPositions[0],
+          positions.projectsPositions[1],
+          positions.projectsPositions[2],
         ]),
         dynamicContainer
       );

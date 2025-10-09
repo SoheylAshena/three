@@ -14,6 +14,9 @@ import sassTex from "../assets/sass.jpg";
 import screenObj from "../assets/screen.obj";
 import skillObj from "../assets/skill.obj";
 import cloudLowTex from "../assets/low.png";
+import spoonTex from "../assets/Spoonacular.jpg";
+import toodooTex from "../assets/TooDoo.jpg";
+import spacexTex from "../assets/spacex.jpg";
 
 export class AssetLoader {
   private loadingManager = new THREE.LoadingManager();
@@ -92,6 +95,18 @@ export class AssetLoader {
     this.textureLoader.load(nextTex, (texture) => {
       texture.colorSpace = THREE.SRGBColorSpace;
       this.textures.next = texture;
+    });
+    this.textureLoader.load(toodooTex, (texture) => {
+      texture.colorSpace = THREE.SRGBColorSpace;
+      this.textures.toodoo = texture;
+    });
+    this.textureLoader.load(spoonTex, (texture) => {
+      texture.colorSpace = THREE.SRGBColorSpace;
+      this.textures.spoon = texture;
+    });
+    this.textureLoader.load(spacexTex, (texture) => {
+      texture.colorSpace = THREE.SRGBColorSpace;
+      this.textures.spacex = texture;
     });
 
     this.objLoader.load(screenObj, (object) => {

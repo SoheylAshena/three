@@ -10,7 +10,6 @@ export class CurrentView {
   }
 
   setView = (view: string): void => {
-    if (this.view === view) return;
     this.view = view;
     this.notifyListeners();
   };
@@ -20,6 +19,7 @@ export class CurrentView {
   };
 
   private notifyListeners(): void {
+    console.log(this.listeners);
     this.listeners.forEach((callback) => callback(this.view));
   }
 }

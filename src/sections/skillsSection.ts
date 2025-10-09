@@ -11,7 +11,7 @@ export function renderSkillsSection() {
 const para = document.createElement("h1");
 para.textContent = "My Skills";
 
-const desc = new CSS2DObject(para);
+let desc = new CSS2DObject(para);
 
 const distances = {
   title: new THREE.Vector3(0, 0, 1.5),

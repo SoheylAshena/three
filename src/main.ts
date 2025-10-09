@@ -17,16 +17,17 @@ import { CAMERA_POSITIONS, viewBounds } from "./constants";
 
 import "./style.css";
 import { MyCSSRenderer } from "./systems/cssRenderer";
-import { createStarField } from "./scenes/starField";
-import { createNebula } from "./scenes/nebula";
-import { createSkillsSection } from "./scenes/skills";
-import { createProjectsSection } from "./scenes/projects";
-import { createContactSection } from "./scenes/contact";
+import { StarField } from "./scenes/starField";
+import { Nebula } from "./scenes/nebula";
+import { Skills } from "./scenes/skills";
+import { Projects } from "./scenes/projects";
+import { Contact } from "./scenes/contact";
 import { isMobile } from "./utils/isMobile";
 
 // ═════════════════════════════════════════════════════════════════════════
 // |||   Three.JS logic
 // ═════════════════════════════════════════════════════════════════════════
+const currentView = new CurrentView();
 
 // ─── 🔹 Canvas ─────────────
 // ──────────────────────────────────────────────────────────────────
@@ -56,15 +57,18 @@ export const setTarget = camera.setTarget;
 // ─── 🔹 3D Scene ─────────────
 // ──────────────────────────────────────────────────────────────────
 const scene = new THREE.Scene();
+const starFieldManager = new StarField();
+const nebulaManager = new Nebula();
+const skillsManager = new Skills();
+const projectsManager = new Projects();
+const contactManager = new Contact();
 
 // ─── 🔹 File management ─────────────
 // ──────────────────────────────────────────────────────────────────
-const fileAssets = new AssetLoader();
-const loadingManager = fileAssets.getManager();
-const textures = fileAssets.getTextures();
-const objects = fileAssets.getObjects();
-
-let positions: {};
+const fileAssetsManager = new AssetLoader();
+const loadingManager = fileAssetsManager.getManager();
+const textures = fileAssetsManager.getTextures();
+const objects = fileAssetsManager.getObjects();
 
 // ─── 🔹 Render when all assets are loaded ─────────────
 // ──────────────────────────────────────────────────────────────────
@@ -83,7 +87,11 @@ loadingManager.onLoad = () => {
     { texture: textures.tailwind, color: 0x00ffff },
     { texture: textures.sass, color: 0xff007c },
   ];
-  const projectsData = [{ texture: "blank" }, { texture: "blank" }, { texture: "blank" }];
+  const projectsData = [
+    { texture: textures.spacex },
+    { texture: textures.toodoo },
+    { texture: textures.spoon },
+  ];
 
   const skillModel = objects.skill;
   const projectsModel = objects.screen;
@@ -91,11 +99,11 @@ loadingManager.onLoad = () => {
 
   // ─── 🔹 Scene creations ─────────────
   // ──────────────────────────────────────────────────────────────────
-  const starField = createStarField();
-  const nebula = createNebula(cloudTexture);
-  const skills = createSkillsSection(skillsData, skillModel);
-  const projects = createProjectsSection(projectsData, projectsModel);
-  const contact = createContactSection(contactModel);
+  const starField = starFieldManager.create();
+  const nebula = nebulaManager.create(cloudTexture);
+  const skills = skillsManager.create(skillsData, skillModel);
+  const projects = projectsManager.create(projectsData, projectsModel);
+  const contact = contactManager.create(contactModel);
 
   // ─── 🔹 Scene configuration ─────────────
   // ──────────────────────────────────────────────────────────────────
@@ -106,19 +114,13 @@ loadingManager.onLoad = () => {
     scene.add(...nebula);
   }
 
-  positions = {
-    project1Position: projects[0].position,
-    project2Position: projects[1].position,
-    project3Position: projects[2].position,
-    skillsPosition: skills[2].position,
-  };
-
   scene.add(starField, ...skills, ...projects, contact);
+
+  currentView.setView("home");
 };
 
 // ─── 🔹 Render animation ─────────────
 // ──────────────────────────────────────────────────────────────────
-
 const renderLoop = () => {
   cameraControls.update();
   renderer.render(scene, perspectiveCamera);
@@ -129,7 +131,6 @@ gsap.ticker.add(renderLoop);
 // ╔════════════════════════════════════════════════════════════════════════╗
 // |   Navigation logic
 // ╚════════════════════════════════════════════════════════════════════════╝
-const currentView = new CurrentView();
 
 // ─── 🔹 Camera movement ─────────────
 // ──────────────────────────────────────────────────────────────────
@@ -140,12 +141,11 @@ currentView.addToListener((view) => {
 // ─── 🔹 Html content ─────────────
 // ──────────────────────────────────────────────────────────────────
 currentView.addToListener((view) => {
+  const projectsPositions = projectsManager.getPositions();
+  const skillsPositions = skillsManager.getPositions();
+  const positions = { projectsPositions, skillsPositions };
   updateContent(view, scene, positions);
 });
-
-// ─── 🔹 Initial view ─────────────
-// ──────────────────────────────────────────────────────────────────
-currentView.setView("home");
 
 // ─── 🔹 Navbar element ─────────────
 // ──────────────────────────────────────────────────────────────────
@@ -157,8 +157,12 @@ renderNavbar(currentView.setView);
 setupTouchHandler(cameraPosition, cameraTarget, viewBounds, currentView.addToListener);
 setupWheelHandler(cameraPosition, cameraTarget, viewBounds, currentView.addToListener);
 
-// ─── 🔹 Resize handler initialization ─────────────
-// ──────────────────────────────────────────────────────────────────
-function resizeCallbacks() {}
+// ╔════════════════════════════════════════════════════════════════════════╗
+// |   Resize handler initialization
+// ╚════════════════════════════════════════════════════════════════════════╝
+function resizeCallbacks() {
+  projectsManager.updatePositions();
+  currentView.setView(currentView.getView());
+}
 
-canvas.resizeHandler(perspectiveCamera, renderer, resizeCallbacks);
+canvas.resizeHandler(perspectiveCamera, [renderer, cssRenderer], resizeCallbacks);
