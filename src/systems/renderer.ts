@@ -1,4 +1,4 @@
-import { ACESFilmicToneMapping, PCFSoftShadowMap, WebGLRenderer } from "three";
+import { ACESFilmicToneMapping, WebGLRenderer } from "three";
 
 // ╔════════════════════════════════════════════════════════════════════════╗
 // |   Initialze Renderer
@@ -14,8 +14,6 @@ export class MyRenderer {
     });
     this.renderer.toneMapping = ACESFilmicToneMapping;
     this.renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-    this.renderer.shadowMap.enabled = true;
-    this.renderer.shadowMap.type = PCFSoftShadowMap;
     this.renderer.setPixelRatio(window.devicePixelRatio);
   }
 

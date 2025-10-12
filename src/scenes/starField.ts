@@ -10,7 +10,7 @@ export class StarField {
   private minRadius = 50;
   private maxRadius = 200;
   private starsMaterial = new THREE.PointsMaterial({
-    size: 0.35,
+    size: 0.25,
     sizeAttenuation: true,
     vertexColors: true,
   });

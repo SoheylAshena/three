@@ -16,12 +16,12 @@ import { renderNavbar } from "./sections/navbar";
 import { CAMERA_POSITIONS, viewBounds } from "./constants";
 
 import "./style.css";
-import { MyCSSRenderer } from "./systems/cssRenderer";
+import { MyCSS3DRenderer, MyCSSRenderer } from "./systems/cssRenderer";
 import { StarField } from "./scenes/starField";
 import { Nebula } from "./scenes/nebula";
 import { Skills } from "./scenes/skills";
 import { Projects } from "./scenes/projects";
-import { Contact } from "./scenes/contact";
+import { Contact, ContactContent } from "./scenes/contact";
 import { isMobile } from "./utils/isMobile";
 
 // ═════════════════════════════════════════════════════════════════════════
@@ -44,6 +44,9 @@ const renderer = webGlRenderer.getRenderer();
 const cssRendererClass = new MyCSSRenderer(canvasElement);
 const cssRenderer = cssRendererClass.getRenderer();
 
+const css3DRendererClass = new MyCSS3DRenderer(canvasElement);
+const css3DRenderer = css3DRendererClass.getRenderer();
+
 // ─── 🔹 Scene camera ─────────────
 // ──────────────────────────────────────────────────────────────────
 const camera = new MyCamera(canvasElement);
@@ -62,6 +65,7 @@ const nebulaManager = new Nebula();
 const skillsManager = new Skills();
 const projectsManager = new Projects();
 const contactManager = new Contact();
+const contactHTMLManager = new ContactContent();
 
 // ─── 🔹 File management ─────────────
 // ──────────────────────────────────────────────────────────────────
@@ -104,6 +108,7 @@ loadingManager.onLoad = () => {
   const skills = skillsManager.create(skillsData, skillModel);
   const projects = projectsManager.create(projectsData, projectsModel);
   const contact = contactManager.create(contactModel);
+  const contactHTML = contactHTMLManager.getObject();
 
   // ─── 🔹 Scene configuration ─────────────
   // ──────────────────────────────────────────────────────────────────
@@ -114,7 +119,7 @@ loadingManager.onLoad = () => {
     scene.add(...nebula);
   }
 
-  scene.add(starField, ...skills, ...projects, contact);
+  scene.add(starField, ...skills, ...projects, contact, contactHTML);
 
   currentView.setView("home");
 };
@@ -125,6 +130,7 @@ const renderLoop = () => {
   cameraControls.update();
   renderer.render(scene, perspectiveCamera);
   cssRenderer.render(scene, perspectiveCamera);
+  css3DRenderer.render(scene, perspectiveCamera);
 };
 gsap.ticker.add(renderLoop);
 

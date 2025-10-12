@@ -64,14 +64,6 @@ h1 {
   line-height: 1.4;
 }
 
-/* Add a subtle glow pulse for neon effect */
-.hello-text,
-.welcome-text,
-.introduction-text,
-.career-text {
-  animation: glowPulse 4s ease-in-out infinite alternate;
-}
-
 @keyframes glowPulse {
   from {
     text-shadow: 0 0 10px currentColor;
@@ -106,7 +98,7 @@ h1 {
   bottom: 0;
   left: 0;
   width: 100%;
-  z-index: 3;
+  z-index: 4;
 
   display: flex;
   justify-content: center;
@@ -151,7 +143,17 @@ h1 {
   }
 }
 
+#iframe {
+  border: 0;
+}
+
 #cssRenderer {
+  width: 100%;
+  height: 100vh;
+  z-index: 2;
+  color: white;
+}
+#css3DRenderer {
   width: 100%;
   height: 100vh;
   z-index: 2;

@@ -5,7 +5,7 @@ export const CAMERA_POSITIONS = {
   home: { position: { x: 0, y: 0, z: -10 }, target: { x: 0, y: 0, z: -20 } },
   skills: { position: { x: 4.84, y: -1, z: 0.16 }, target: { x: 10, y: -1, z: 2.62 } },
   projects: { position: { x: -6, y: 0, z: 1 }, target: { x: -10, y: 0, z: -1 } },
-  contact: { position: { x: 0, y: 0, z: 2 }, target: { x: 0, y: 0, z: 10 } },
+  contact: { position: { x: 0, y: 0, z: -1 }, target: { x: 0, y: 0, z: 10 } },
   homeMobile: { position: { x: 0, y: 0, z: 0 }, target: { x: 0, y: 0, z: -10 } },
   skillsMobile: { position: { x: 1.5, y: -1, z: -3 }, target: { x: 10, y: -1, z: 1 } },
   projectsMobile: { position: { x: 0, y: -2, z: 0 }, target: { x: -10, y: -2, z: 0 } },
