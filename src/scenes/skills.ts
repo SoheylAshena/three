@@ -1,3 +1,14 @@
+/*─────────────────────────────────────────────────────────────────────────────
+│                                                                             │
+│      © 2025 — Soheyl Ashena                                                 │
+│      Licensed under the MIT License.                                        │
+│      You must retain this notice in any copies or derivative works.         │
+│                                                                             │
+│      Original Author: Soheyl Ashena                                         │
+│      Unauthorized removal of attribution is prohibited.                     │
+│                                                                             │
+─────────────────────────────────────────────────────────────────────────────*/
+
 import * as THREE from "three";
 import { poseGrid } from "../utils/poseGrid";
 import gsap from "gsap";
@@ -19,10 +30,8 @@ export class Skills {
     });
 
     const createMaterial = (texture: THREE.Texture) =>
-      new THREE.MeshStandardMaterial({
+      new THREE.MeshBasicMaterial({
         map: texture,
-        emissiveMap: texture,
-        emissive: 0xffffff,
       });
 
     const createLight = (color: number) => new THREE.PointLight(color, 0.3, 0.5);

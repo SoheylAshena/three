@@ -1,3 +1,14 @@
+/*─────────────────────────────────────────────────────────────────────────────
+│                                                                             │
+│      © 2025 — Soheyl Ashena                                                 │
+│      Licensed under the MIT License.                                        │
+│      You must retain this notice in any copies or derivative works.         │
+│                                                                             │
+│      Original Author: Soheyl Ashena                                         │
+│      Unauthorized removal of attribution is prohibited.                     │
+│                                                                             │
+─────────────────────────────────────────────────────────────────────────────*/
+
 import * as THREE from "three";
 import gsap from "gsap";
 import { degToRad } from "three/src/math/MathUtils.js";
@@ -30,10 +41,8 @@ export class Projects {
         if ((child as THREE.Mesh).isMesh) {
           (child as THREE.Mesh).material = [
             whiteMaterial,
-            new THREE.MeshStandardMaterial({
-              emissiveMap: data[index].texture,
+            new THREE.MeshBasicMaterial({
               map: data[index].texture,
-              emissive: 0xffffff,
             }),
             whiteMaterial,
           ];

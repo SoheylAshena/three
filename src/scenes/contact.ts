@@ -1,3 +1,14 @@
+/*─────────────────────────────────────────────────────────────────────────────
+│                                                                             │
+│      © 2025 — Soheyl Ashena                                                 │
+│      Licensed under the MIT License.                                        │
+│      You must retain this notice in any copies or derivative works.         │
+│                                                                             │
+│      Original Author: Soheyl Ashena                                         │
+│      Unauthorized removal of attribution is prohibited.                     │
+│                                                                             │
+─────────────────────────────────────────────────────────────────────────────*/
+
 import * as THREE from "three";
 import { degToRad } from "three/src/math/MathUtils.js";
 import { isMobile } from "../utils/isMobile";
@@ -11,10 +22,8 @@ export class Contact {
       color: 0xffffff,
       roughness: 0.1,
     });
-    const whiteGlowMaterial = new THREE.MeshStandardMaterial({
-      color: 0x000000,
-      emissive: 0x0a0c19,
-      emissiveIntensity: 3,
+    const whiteGlowMaterial = new THREE.MeshBasicMaterial({
+      color: 0x141730,
     });
 
     const contactScreen = model.clone(true);

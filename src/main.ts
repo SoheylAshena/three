@@ -1,5 +1,16 @@
-import gsap from "gsap";
+/*─────────────────────────────────────────────────────────────────────────────
+│                                                                             │
+│      © 2025 — Soheyl Ashena                                                 │
+│      Licensed under the MIT License.                                        │
+│      You must retain this notice in any copies or derivative works.         │
+│                                                                             │
+│      Original Author: Soheyl Ashena                                         │
+│      Unauthorized removal of attribution is prohibited.                     │
+│                                                                             │
+─────────────────────────────────────────────────────────────────────────────*/
+
 import * as THREE from "three";
+import gsap from "gsap";
 
 import { AssetLoader } from "./systems/AssetLoader";
 import { MyCanvas } from "./systems/canvas";
@@ -10,19 +21,21 @@ import { setupWheelHandler } from "./systems/wheelMove";
 import { setupTouchHandler } from "./systems/touchMove";
 import { navigatgeCamera } from "./systems/cameraMove";
 import { updateContent } from "./systems/htmlContent";
-
-import { renderNavbar } from "./sections/navbar";
-
-import { CAMERA_POSITIONS, viewBounds } from "./constants";
-
-import "./style.css";
 import { MyCSS3DRenderer, MyCSSRenderer } from "./systems/cssRenderer";
+
 import { StarField } from "./scenes/starField";
 import { Nebula } from "./scenes/nebula";
 import { Skills } from "./scenes/skills";
 import { Projects } from "./scenes/projects";
 import { Contact, ContactContent } from "./scenes/contact";
+
 import { isMobile } from "./utils/isMobile";
+
+import { CAMERA_POSITIONS, viewBounds } from "./constants";
+
+import { renderNavbar } from "./sections/navbar";
+
+import "./style.css";
 
 // ═════════════════════════════════════════════════════════════════════════
 // |||   Three.JS logic
@@ -32,34 +45,38 @@ const currentView = new CurrentView();
 // ─── 🔹 Canvas ─────────────
 // ──────────────────────────────────────────────────────────────────
 const canvas = new MyCanvas();
+
 const canvasElement = canvas.getCanvas();
 
 // ─── 🔹 WebGL renderer ─────────────
 // ──────────────────────────────────────────────────────────────────
 const webGlRenderer = new MyRenderer(canvasElement);
+
 const renderer = webGlRenderer.getRenderer();
 
-// ─── 🔹 CSS renderer ─────────────
+// ─── 🔹 CSS renderers ─────────────
 // ──────────────────────────────────────────────────────────────────
-const cssRendererClass = new MyCSSRenderer(canvasElement);
-const cssRenderer = cssRendererClass.getRenderer();
+const cssRendererManager = new MyCSSRenderer(canvasElement);
+const cssRenderer = cssRendererManager.getRenderer();
 
-const css3DRendererClass = new MyCSS3DRenderer(canvasElement);
-const css3DRenderer = css3DRendererClass.getRenderer();
+const css3DRendererManager = new MyCSS3DRenderer(canvasElement);
+const css3DRenderer = css3DRendererManager.getRenderer();
 
 // ─── 🔹 Scene camera ─────────────
 // ──────────────────────────────────────────────────────────────────
 const camera = new MyCamera(canvasElement);
+
 export const perspectiveCamera = camera.getCamera();
 const cameraControls = camera.getControls();
-const cameraPosition = perspectiveCamera.position;
-const cameraTarget = cameraControls.target;
 export const moveCamera = camera.moveCamera;
 export const setTarget = camera.setTarget;
+const cameraPosition = perspectiveCamera.position;
+const cameraTarget = cameraControls.target;
 
 // ─── 🔹 3D Scene ─────────────
 // ──────────────────────────────────────────────────────────────────
 const scene = new THREE.Scene();
+
 const starFieldManager = new StarField();
 const nebulaManager = new Nebula();
 const skillsManager = new Skills();
@@ -70,6 +87,7 @@ const contactHTMLManager = new ContactContent();
 // ─── 🔹 File management ─────────────
 // ──────────────────────────────────────────────────────────────────
 const fileAssetsManager = new AssetLoader();
+
 const loadingManager = fileAssetsManager.getManager();
 const textures = fileAssetsManager.getTextures();
 const objects = fileAssetsManager.getObjects();
@@ -132,6 +150,7 @@ const renderLoop = () => {
   cssRenderer.render(scene, perspectiveCamera);
   css3DRenderer.render(scene, perspectiveCamera);
 };
+
 gsap.ticker.add(renderLoop);
 
 // ╔════════════════════════════════════════════════════════════════════════╗

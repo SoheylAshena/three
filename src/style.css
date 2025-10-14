@@ -1,3 +1,14 @@
+/*─────────────────────────────────────────────────────────────────────────────
+│                                                                             │
+│      © 2025 — Soheyl Ashena                                                 │
+│      Licensed under the MIT License.                                        │
+│      You must retain this notice in any copies or derivative works.         │
+│                                                                             │
+│      Original Author: Soheyl Ashena                                         │
+│      Unauthorized removal of attribution is prohibited.                     │
+│                                                                             │
+─────────────────────────────────────────────────────────────────────────────*/
+
 *,
 *::after,
 *::before {
@@ -64,19 +75,10 @@ h1 {
   line-height: 1.4;
 }
 
-@keyframes glowPulse {
-  from {
-    text-shadow: 0 0 10px currentColor;
-  }
-  to {
-    text-shadow: 0 0 25px currentColor, 0 0 50px currentColor;
-  }
-}
-
 #main-canvas {
   position: fixed;
   width: 100% !important;
-  height: 100svh !important;
+  height: 100vh !important;
   top: 0;
   right: 0;
   z-index: 1;

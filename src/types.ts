@@ -1,3 +1,14 @@
+/*─────────────────────────────────────────────────────────────────────────────
+│                                                                             │
+│      © 2025 — Soheyl Ashena                                                 │
+│      Licensed under the MIT License.                                        │
+│      You must retain this notice in any copies or derivative works.         │
+│                                                                             │
+│      Original Author: Soheyl Ashena                                         │
+│      Unauthorized removal of attribution is prohibited.                     │
+│                                                                             │
+─────────────────────────────────────────────────────────────────────────────*/
+
 import type { BufferGeometry, PerspectiveCamera, Texture, Object3D, Light, Material } from "three";
 import type { Font, OrbitControls } from "three/examples/jsm/Addons.js";
 import { CAMERA_POSITIONS } from "./constants";
