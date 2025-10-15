@@ -18,6 +18,12 @@ export class MyCanvas {
 
   constructor() {
     this.canvas = window.document.querySelector("#main-canvas")! as HTMLCanvasElement;
+    this.canvas.style.width = "100%";
+    this.canvas.style.height = "100vh";
+    this.canvas.style.position = "absolute";
+    this.canvas.style.top = "0";
+    this.canvas.style.left = "0";
+
     this.lastWidth = this.canvas.clientWidth;
   }
 

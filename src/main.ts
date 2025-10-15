@@ -190,4 +190,4 @@ function resizeCallbacks() {
   currentView.setView(currentView.getView());
 }
 
-canvas.resizeHandler(perspectiveCamera, [renderer, cssRenderer], resizeCallbacks);
+canvas.resizeHandler(perspectiveCamera, [renderer, cssRenderer, css3DRenderer], resizeCallbacks);

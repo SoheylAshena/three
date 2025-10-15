@@ -75,15 +75,6 @@ h1 {
   line-height: 1.4;
 }
 
-#main-canvas {
-  position: fixed;
-  width: 100% !important;
-  height: 100vh !important;
-  top: 0;
-  right: 0;
-  z-index: 1;
-}
-
 #text {
   position: relative;
   color: white;
@@ -149,18 +140,7 @@ h1 {
   border: 0;
 }
 
-#cssRenderer {
-  width: 100%;
-  height: 100vh;
-  z-index: 2;
-  color: white;
-}
-#css3DRenderer {
-  width: 100%;
-  height: 100vh;
-  z-index: 2;
-  color: white;
-}
+
 
 .project-section {
   display: flex;

@@ -21,8 +21,6 @@ export class MyCSSRenderer {
     this.renderer = new CSS2DRenderer();
     this.renderer.setSize(canvas.clientWidth, canvas.clientHeight);
     this.renderer.domElement.style.position = "absolute";
-    this.renderer.domElement.style.width = "100%";
-    this.renderer.domElement.style.height = "100vh";
     this.renderer.domElement.style.top = "0";
     this.renderer.domElement.style.left = "0";
     this.renderer.domElement.style.opacity = "0";
@@ -42,10 +40,9 @@ export class MyCSS3DRenderer {
     this.renderer = new CSS3DRenderer();
     this.renderer.setSize(canvas.clientWidth, canvas.clientHeight);
     this.renderer.domElement.style.position = "absolute";
-    this.renderer.domElement.style.width = "100%";
-    this.renderer.domElement.style.height = "100vh";
     this.renderer.domElement.style.top = "0";
     this.renderer.domElement.style.left = "0";
+    this.renderer.domElement.style.zIndex = "2";
     this.renderer.domElement.id = "css3DRenderer";
 
     document.body.appendChild(this.renderer.domElement);
