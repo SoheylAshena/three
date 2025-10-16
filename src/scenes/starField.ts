@@ -44,21 +44,21 @@ export class StarField {
       let r, g, b;
       const colorType = Math.random();
       if (colorType < 0.3) {
-        r = 0.3 + Math.random() * 0.3;
-        g = 0.3 + Math.random() * 0.3;
-        b = 0.7 + Math.random() * 0.3;
+        r = 0;
+        g = 1;
+        b = 1;
       } else if (colorType < 0.6) {
-        r = 0.8 + Math.random() * 0.2;
-        g = 0.8 + Math.random() * 0.2;
-        b = 0.8 + Math.random() * 0.2;
+        r = 1;
+        g = 1;
+        b = 1;
       } else if (colorType < 0.9) {
-        r = 0.8 + Math.random() * 0.2;
-        g = 0.6 + Math.random() * 0.2;
-        b = 0.2 + Math.random() * 0.2;
+        r = 1;
+        g = 0.2;
+        b = 0.5;
       } else {
-        r = 0.7 + Math.random() * 0.3;
-        g = 0.2 + Math.random() * 0.2;
-        b = 0.2 + Math.random() * 0.2;
+        r = 1;
+        g = 0.2;
+        b = 1;
       }
 
       this.colors[i * 3] = r;

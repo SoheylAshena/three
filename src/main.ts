@@ -27,7 +27,7 @@ import { StarField } from "./scenes/starField";
 import { Nebula } from "./scenes/nebula";
 import { Skills } from "./scenes/skills";
 import { Projects } from "./scenes/projects";
-import { Contact, ContactContent } from "./scenes/contact";
+import { ContactContent } from "./scenes/contact";
 
 import { isMobile } from "./utils/isMobile";
 
@@ -81,7 +81,6 @@ const starFieldManager = new StarField();
 const nebulaManager = new Nebula();
 const skillsManager = new Skills();
 const projectsManager = new Projects();
-const contactManager = new Contact();
 const contactHTMLManager = new ContactContent();
 
 // ─── 🔹 File management ─────────────
@@ -117,7 +116,6 @@ loadingManager.onLoad = () => {
 
   const skillModel = objects.skill;
   const projectsModel = objects.screen;
-  const contactModel = objects.screen;
 
   // ─── 🔹 Scene creations ─────────────
   // ──────────────────────────────────────────────────────────────────
@@ -125,7 +123,6 @@ loadingManager.onLoad = () => {
   const nebula = nebulaManager.create(cloudTexture);
   const skills = skillsManager.create(skillsData, skillModel);
   const projects = projectsManager.create(projectsData, projectsModel);
-  const contact = contactManager.create(contactModel);
   const contactHTML = contactHTMLManager.getObject();
 
   // ─── 🔹 Scene configuration ─────────────
@@ -137,7 +134,7 @@ loadingManager.onLoad = () => {
     scene.add(...nebula);
   }
 
-  scene.add(starField, ...skills, ...projects, contact, contactHTML);
+  scene.add(starField, ...skills, ...projects, contactHTML);
 
   currentView.setView("home");
 };

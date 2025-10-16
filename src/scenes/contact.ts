@@ -57,14 +57,14 @@ export class ContactContent {
 
   constructor() {
     this.element = document.createElement("iframe");
-    this.element.src = "https://contact.sohyl.me";
+    this.element.src = "https://contact.sohyl.me/";
     this.element.id = "iframe";
     if (isMobile()) {
-      this.element.width = "500px";
+      this.element.width = "600px";
       this.element.height = "700px";
     } else {
-      this.element.width = "700px";
-      this.element.height = "500px";
+      this.element.width = "1000px";
+      this.element.height = "700px";
     }
     this.object = new CSS3DObject(this.element);
     this.object.position.set(0, 0, 10);
