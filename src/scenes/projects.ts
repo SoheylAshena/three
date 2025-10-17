@@ -22,6 +22,8 @@ export class Projects {
   create = (
     data: {
       texture: THREE.Texture;
+      demo: string;
+      src: string;
     }[],
     model: THREE.Object3D
   ) => {
@@ -39,6 +41,8 @@ export class Projects {
 
       newProject.traverse((child) => {
         if ((child as THREE.Mesh).isMesh) {
+          child.userData.demo = data[index].demo;
+          child.userData.src = data[index].src;
           (child as THREE.Mesh).material = [
             whiteMaterial,
             new THREE.MeshBasicMaterial({

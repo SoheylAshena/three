@@ -26,7 +26,6 @@ export class CurrentView {
   };
 
   private notifyListeners(): void {
-    console.log(this.listeners);
     this.listeners.forEach((callback) => callback(this.view));
   }
 }

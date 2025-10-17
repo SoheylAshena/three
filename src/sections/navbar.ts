@@ -14,22 +14,26 @@ export const renderNavbar = (setView: (view: string) => void) => {
 
   const linkProjects = document.createElement("p");
   linkProjects.textContent = "Projects";
-  linkProjects.addEventListener("click", () => {
+  linkProjects.addEventListener("click", (e) => {
+    e.stopPropagation();
     setView("projects");
   });
   const linkSkills = document.createElement("p");
   linkSkills.textContent = "Skills";
-  linkSkills.addEventListener("click", () => {
+  linkSkills.addEventListener("click", (e) => {
+    e.stopPropagation();
     setView("skills");
   });
   const linkContact = document.createElement("p");
   linkContact.textContent = "Contact";
-  linkContact.addEventListener("click", () => {
+  linkContact.addEventListener("click", (e) => {
+    e.stopPropagation();
     setView("contact");
   });
   const linkHome = document.createElement("p");
   linkHome.textContent = "About";
-  linkHome.addEventListener("click", () => {
+  linkHome.addEventListener("click", (e) => {
+    e.stopPropagation();
     setView("home");
   });
 

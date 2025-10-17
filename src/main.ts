@@ -36,6 +36,7 @@ import { CAMERA_POSITIONS, viewBounds } from "./constants";
 import { renderNavbar } from "./sections/navbar";
 
 import "./style.css";
+import { ModalHandler } from "./sections/modalHandler";
 
 // ═════════════════════════════════════════════════════════════════════════
 // |||   Three.JS logic
@@ -109,9 +110,21 @@ loadingManager.onLoad = () => {
     { texture: textures.sass, color: 0xff007c },
   ];
   const projectsData = [
-    { texture: textures.spacex },
-    { texture: textures.toodoo },
-    { texture: textures.spoon },
+    {
+      texture: textures.spacex,
+      demo: "https://sohyl.me",
+      src: "https://github.com/soheylashena/three",
+    },
+    {
+      texture: textures.toodoo,
+      demo: "https://toodoo.sohyl.me",
+      src: "https://github.com/soheylashena/TooDoo",
+    },
+    {
+      texture: textures.spoon,
+      demo: "https://food.sohyl.me",
+      src: "https://github.com/SoheylAshena/Spoonacular-recipe-finder",
+    },
   ];
 
   const skillModel = objects.skill;
@@ -188,3 +201,30 @@ function resizeCallbacks() {
 }
 
 canvas.resizeHandler(perspectiveCamera, [renderer, cssRenderer, css3DRenderer], resizeCallbacks);
+
+// ╔════════════════════════════════════════════════════════════════════════╗
+// |   Ray Caster and handler
+// ╚════════════════════════════════════════════════════════════════════════╝
+const modalHandler = new ModalHandler();
+
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+
+window.addEventListener("click", (event) => {
+  if (modalHandler.isOpen) return;
+
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+  raycaster.setFromCamera(mouse, perspectiveCamera);
+  const intersects = raycaster.intersectObjects(scene.children);
+
+  if (intersects.length > 0 && !modalHandler.isOpen) {
+    const clickedObject = intersects[0].object;
+    const data = clickedObject.userData;
+
+    if (data.src && data.demo) {
+      modalHandler.open(data.src, data.demo);
+    }
+  }
+});

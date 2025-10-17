@@ -70,7 +70,6 @@ export class ContactContent {
     this.object.position.set(0, 0, 10);
     this.object.rotateY(degToRad(180));
     this.object.scale.set(0.01, 0.01, 0.01);
-    console.log(this.object);
   }
 
   getObject() {
